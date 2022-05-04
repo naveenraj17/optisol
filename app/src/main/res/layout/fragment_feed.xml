@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scrollbars="none"
+        android:id="@+id/room_recycler"/>
+    <TextView
+        android:id="@+id/note"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_50ssp"
+        android:text="Click + icon to create \na room"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp" />
+
+    <LinearLayout
+        android:id="@+id/fabLL"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom"
+        android:layout_gravity="bottom|end">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:elevation="@dimen/_5sdp"
+            app:srcCompat="@drawable/add" />
+    </LinearLayout>
+
+
+</LinearLayout>

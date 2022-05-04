@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="@dimen/_40sdp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Room Name"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/_10ssp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <CheckBox
+        android:id="@+id/is_live"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Is Live"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_11ssp"
+        android:padding="@dimen/_3sdp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginRight="10dp"
+            android:textAllCaps="false"
+            android:id="@+id/create"
+            app:backgroundTint="@null"
+            android:textColor="#FFF"
+            android:background="@drawable/uon" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@null"
+            android:layout_marginLeft="15dp"
+            android:textAllCaps="false"
+            android:background="@drawable/round_button1"
+            android:text="Cancel"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+
+</LinearLayout>
