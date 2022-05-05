@@ -11,7 +11,9 @@ import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.RoomData
 import com.naveenraj.optisolpro.utils.FragmentAdapter
 import com.naveenraj.optisolpro.utils.RoomAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardView : AppCompatActivity(),RoomAdapter.ClickListener {
     private lateinit var tabLayout : TabLayout
 
@@ -21,8 +23,8 @@ class DashboardView : AppCompatActivity(),RoomAdapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         initViews()
-        tabLayout.addTab(tabLayout.newTab().setText("Videos"))
-        tabLayout.addTab(tabLayout.newTab().setText("Feeds"))
+        tabLayout.addTab(tabLayout.newTab().setText("  Videos  "))
+        tabLayout.addTab(tabLayout.newTab().setText("  Feeds  "))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = FragmentAdapter(supportFragmentManager, tabLayout!!.tabCount,this@DashboardView)
 

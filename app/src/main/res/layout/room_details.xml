@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/stadium2"/>
+                android:src="@drawable/room_pic"/>
 
         </FrameLayout>
         <LinearLayout
@@ -45,6 +45,7 @@
                     android:layout_gravity="top"
                     android:layout_marginTop="@dimen/_4ssp"
                     android:text=""
+                    android:textStyle="bold"
                     android:layout_marginRight="@dimen/_5sdp"
                     android:gravity="right"
                     android:textColor="@color/white"
@@ -60,12 +61,12 @@
                         android:fontFamily="@font/poppins_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:letterSpacing="0.3"
                         android:layout_gravity="bottom"
                         android:layout_marginTop="@dimen/_4ssp"
-                        android:text=""
-                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_13ssp" />
 
                 </LinearLayout>
 

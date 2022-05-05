@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.naveenraj.optisolpro.R
@@ -40,7 +41,10 @@ class RoomAdapter(data: ArrayList<RoomData>, context: Context,listener: ClickLis
         holder.rootView.setOnClickListener{
             listener.clickOperation(data.get(position))
         }
-
+        if((position+1)%2==0)
+            holder.img.setImageResource(R.drawable.room_pic2)
+        else
+            holder.img.setImageResource(R.drawable.room_pic)
     }
 
     override fun getItemCount(): Int {
@@ -54,6 +58,7 @@ class RoomAdapter(data: ArrayList<RoomData>, context: Context,listener: ClickLis
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name)
         var date: TextView = itemView.findViewById(R.id.date)
+        var img: ImageView = itemView.findViewById(R.id.img)
         var rootView: NeumorphCardView = itemView.findViewById(R.id.rootView)
 
     }

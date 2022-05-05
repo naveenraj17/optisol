@@ -1,14 +1,15 @@
-package com.naveenraj.optisolpro.utils.api
+package com.naveenraj.optisolpro.presenter
 
 import com.naveenraj.optisolpro.model.VideoReponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface APInterface {
-
+interface RetroServiceInstance {
 
     @GET("users")
-    fun reqVideoResponse(@Query("page") PatientId: Int?): Call<VideoReponse?>?
+    fun reqVideoResponse(@Query("page") page: Int?): Call<VideoReponse>
+
+
 
 }
