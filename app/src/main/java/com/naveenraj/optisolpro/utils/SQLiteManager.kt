@@ -49,10 +49,8 @@ class SQLiteManager(context: Context?) :
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(NAME, data.name)
-        if(data.isLive)
-            values.put(ISLIVE, !data.isLive)
-        else
-            values.put(ISLIVE, data.isLive)
+        values.put(ISLIVE, !data.isLive)
+
         values.put(DATETIME, data.createDataTime)
 
         val _success = db.update(TABLE_NAME,values,"id = ?", arrayOf(id))

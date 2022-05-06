@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Room Name"
+            android:fontFamily="@font/poppins_medium"
             android:textColorHint="@color/grey"
             android:textSize="@dimen/_10ssp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -69,8 +70,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:id="@+id/updateL"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <TextView
@@ -91,12 +92,14 @@
             android:layout_height="wrap_content"
             android:text="Start Live"
             android:layout_gravity="right"
-            android:textStyle="bold"
+            android:textSize="@dimen/_18sdp"
             android:id="@+id/action_btn"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:textAllCaps="false"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/dif"
             android:background="@drawable/selected_tab"/>
     </LinearLayout>
 

@@ -1,40 +1,45 @@
 package com.naveenraj.optisolpro.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
-import com.google.android.material.textfield.TextInputEditText
 import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.RoomData
 import com.naveenraj.optisolpro.utils.FragmentAdapter
 import com.naveenraj.optisolpro.utils.RoomAdapter
 import com.naveenraj.optisolpro.utils.SQLiteManager
+import com.naveenraj.optisolpro.view.fragments.FeedsFragment
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class DashboardView : AppCompatActivity(),RoomAdapter.ClickListener {
     private lateinit var tabLayout : TabLayout
 
+    lateinit var myviewpager : ViewPager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         initViews()
-        tabLayout.addTab(tabLayout.newTab().setText("  Videos  "))
-        tabLayout.addTab(tabLayout.newTab().setText("  Feeds  "))
+        tabLayout.addTab(tabLayout.newTab().setText("   Videos   "))
+        tabLayout.addTab(tabLayout.newTab().setText("   Feeds   "))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+
         val adapter = FragmentAdapter(supportFragmentManager, tabLayout!!.tabCount,this@DashboardView)
 
-        val myviewpager : ViewPager = findViewById(R.id.view_pager)
+        myviewpager= findViewById(R.id.view_pager)
         myviewpager.adapter = adapter
         myviewpager.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
 
@@ -46,7 +51,21 @@ class DashboardView : AppCompatActivity(),RoomAdapter.ClickListener {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+
+        var position = 0
+        try {
+            position = intent.getStringExtra("item")?.toInt()!!
+        } catch (e: Exception) {
+        }
+
+        myviewpager.setCurrentItem(position)
+
 //        tabLayout.post { tabLayout.setupWithViewPager(myviewpager) }
+    }
+
+     fun currentPage(i: String) {
+         startActivity(Intent(this,DashboardView::class.java)
+             .putExtra("item",i))
     }
 
     private fun initViews() {
@@ -77,9 +96,10 @@ class DashboardView : AppCompatActivity(),RoomAdapter.ClickListener {
         action.setOnClickListener {
             var sqLiteManager = SQLiteManager(this)
             if(sqLiteManager.updateMatchDetails(data)){
-
+                currentPage("1")
             }
 
         }
     }
+
 }

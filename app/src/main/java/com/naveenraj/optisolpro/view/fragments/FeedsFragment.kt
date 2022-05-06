@@ -1,15 +1,15 @@
 package com.naveenraj.optisolpro.view.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,9 +19,9 @@ import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.RoomData
 import com.naveenraj.optisolpro.utils.RoomAdapter
 import com.naveenraj.optisolpro.utils.SQLiteManager
+import com.naveenraj.optisolpro.view.DashboardView
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
@@ -93,16 +93,21 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
             }
 
             if(check){
-                val sdf = SimpleDateFormat(DATEFORMAT)
-                sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
-                val utcTime: String = sdf.format(Date())
-                val data = RoomData("",text,isLive.isChecked,utcTime)
-                if(sqLiteManager.addRoomDetails(data)){
-                    mBottomSheetDialog.dismiss()
+                if(text.length>0){
+                    val sdf = SimpleDateFormat(DATEFORMAT)
+                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+                    val utcTime: String = sdf.format(Date())
+                    val data = RoomData("",text,isLive.isChecked,utcTime)
+                    if(sqLiteManager.addRoomDetails(data)){
+                        currentPage("1")
+                    }
+                }else{
+                    Toast.makeText(requireContext(),"Room Name should be Unique", Toast.LENGTH_SHORT).show()
                 }
-            }else{
-
+                }else{
+                roomName.setError("Room Name")
             }
+
         }
 
         addRoom.setOnClickListener {
@@ -133,5 +138,9 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
 
     }
 
+    fun currentPage(i: String) {
+        startActivity(Intent(requireContext(),DashboardView::class.java)
+            .putExtra("item",i))
+    }
 
 }

@@ -20,7 +20,6 @@ class VideoRepoImpl @Inject constructor(private val retroInstance: RetroServiceI
             }
 
             override fun onFailure(call: Call<VideoResponse>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.VideoData
-import com.naveenraj.optisolpro.model.VideoResponse
-import okhttp3.internal.notify
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import soup.neumorphism.NeumorphCardView
 
 class VideoAdapter() :
@@ -19,12 +19,16 @@ class VideoAdapter() :
 //    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.room_details, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.video_layout, parent, false))
 
     }
 
     override fun onBindViewHolder(holder: VideoAdapter.ViewHolder, position: Int) {
 
+        holder.name.text = data.get(position).firstName+" "+data.get(position).lastName
+        holder.mail.text = data.get(position).email
+        Picasso.get().load(data.get(position).avatar).placeholder(R.drawable.profile).fit()
+            .centerInside().into(holder.img)
     }
 
     override fun getItemCount(): Int {
@@ -37,12 +41,13 @@ class VideoAdapter() :
     }
     fun clear(){
         data.clear()
+
         notifyDataSetChanged()
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name)
-        var date: TextView = itemView.findViewById(R.id.date)
-        var rootView: NeumorphCardView = itemView.findViewById(R.id.rootView)
+        var img: CircleImageView = itemView.findViewById(R.id.img)
+        var mail: TextView = itemView.findViewById(R.id.mail)
 
     }
 
