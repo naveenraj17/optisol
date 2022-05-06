@@ -11,12 +11,12 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import soup.neumorphism.NeumorphCardView
 
-class VideoAdapter() :
+class VideoAdapter(entireData: ArrayList<VideoData>) :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>()  {
     private var data = ArrayList<VideoData>()
-//    init {
-//        this.data=data
-//    }
+    init {
+        this.data=entireData
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.video_layout, parent, false))
@@ -35,15 +35,11 @@ class VideoAdapter() :
         return data.size
     }
 
-    fun addData(items:ArrayList<VideoData>){
-        data.addAll(items)
-        notifyDataSetChanged()
-    }
-    fun clear(){
-        data.clear()
+//    fun addData(items:ArrayList<VideoData>){
+//        data.addAll(items)
+//        notifyDataSetChanged()
+//    }
 
-        notifyDataSetChanged()
-    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name)
         var img: CircleImageView = itemView.findViewById(R.id.img)

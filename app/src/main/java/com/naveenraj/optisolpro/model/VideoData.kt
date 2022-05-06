@@ -7,24 +7,31 @@ import com.google.gson.annotations.SerializedName
 
 
 
-class VideoData {
+class VideoData(first_name:String, last_name:String, email:String, avatar:String) {
     @SerializedName("id")
     @Expose
-     val id: Int? = null
+     var id: Int? = null
 
     @SerializedName("email")
     @Expose
-     val email: String? = null
+     var email: String? = null
 
     @SerializedName("first_name")
     @Expose
-     val firstName: String? = null
+     var firstName: String? = null
 
     @SerializedName("last_name")
     @Expose
-     val lastName: String? = null
+     var lastName: String? = null
 
     @SerializedName("avatar")
     @Expose
-     val avatar: String? = null
+     var avatar: String? = null
+    
+    init {
+        firstName = first_name
+        lastName = last_name
+        this.email = email
+        this.avatar = avatar
+    }
 }

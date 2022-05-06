@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +28,12 @@ class VideoFragment : Fragment() {
 
     private lateinit var videoRecyclerview: RecyclerView
     private lateinit var recyclerAdapter: VideoAdapter
+    private lateinit var scrollView: NestedScrollView
     private lateinit var shimmer: ShimmerFrameLayout
+    private var entireData: ArrayList<VideoData> =ArrayList()
     var page = 1
     var isLoading = false
-    var limit = 1
+    var limit = 2
     lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(
@@ -41,40 +43,32 @@ class VideoFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_video, container, false)
         videoRecyclerview = view.findViewById(R.id.video_recycler)
         shimmer = view.findViewById(R.id.shimmer_view_container)
+        scrollView = view.findViewById(R.id.scroll_view)
         shimmer.startShimmerAnimation()
         shimmer.visibility =View.VISIBLE
         layoutManager = LinearLayoutManager(requireContext())
 
         videoRecyclerview.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL,false)
-        recyclerAdapter = VideoAdapter()
-        videoRecyclerview.adapter = recyclerAdapter
-        videoRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-
-                val visibleItemCount = layoutManager.childCount
-                val pastVisibleItemCount = layoutManager.findFirstVisibleItemPosition()
-                val total = recyclerAdapter.itemCount
-                if( !isLoading &&total < limit ){
-                    if(visibleItemCount+pastVisibleItemCount>=total){
-                        page++
-                        if(isNetworkAvailable(requireContext())){
-                            initViewModel(false)
-                        }else{
-                            noNetworkError(requireActivity(),DashboardView::class.java)
-                        }
-                    }
-                }
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
+//        recyclerAdapter = VideoAdapter(entireData)
+//        videoRecyclerview.adapter = recyclerAdapter
         if(isNetworkAvailable(requireContext())){
             initViewModel(false)
         }else{
             noNetworkError(requireActivity(),DashboardView::class.java)
         }
 
+        scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            // on scroll change we are checking when users scroll as bottom.
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                // in this method we are incrementing page number,
+                // making progress bar visible and calling get data method.
+                page++
+                initViewModel(false)
+//                loadingPB.setVisibility(View.VISIBLE)
+//                getDataFromAPI(page, limit)
+            }
+        })
 
         return view
     }
@@ -82,25 +76,36 @@ class VideoFragment : Fragment() {
     private fun initViewModel(status: Boolean) {
         isLoading = true
 //        if(!status)
+        if (page > limit) {
 
-        val viewModel=ViewModelProvider(this).get(VideoFeedViewModel::class.java)
-        viewModel.getLiveDataObserver().observe(this,{
-            if(it !=null){
-                videoRecyclerview.setHasFixedSize(true)
-                var data = it.data as ArrayList<VideoData>
-                limit = it.total!!
-//                videoRecyclerview.adapter = VideoAdapter(
-//                    data)
-//                recyclerAdapter = VideoAdapter(data)
-                recyclerAdapter.addData(data)
-                shimmer.visibility =View.GONE
-                shimmer.stopShimmerAnimation()
+//            loadingPB.setVisibility(View.GONE);
+            return;
+        }else{
+
+            val viewModel=ViewModelProvider(this).get(VideoFeedViewModel::class.java)
+            viewModel.getLiveDataObserver().observe(this,{
+                if(it !=null){
+                    videoRecyclerview.setHasFixedSize(true)
+                    var data = it.data as ArrayList<VideoData>
+                    entireData.addAll(data)
 
 
-            }
-        })
+//                limit = it.total!!
+                videoRecyclerview.adapter = VideoAdapter(
+                    entireData)
+                recyclerAdapter = VideoAdapter(entireData)
+//                    recyclerAdapter.addData(data)
+                    shimmer.visibility =View.GONE
+                    shimmer.stopShimmerAnimation()
 
-        viewModel.loadListofData(page)
+
+                }
+            })
+
+            viewModel.loadListofData(page)
+        }
+
+
     }
 
 
