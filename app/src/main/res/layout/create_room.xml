@@ -5,6 +5,11 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/createL"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginLeft="16dp"
@@ -59,6 +64,40 @@
             android:text="Cancel"
             android:textColor="@color/red"
             android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/updateL"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dif"
+            android:textColor="@color/blue"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/title"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_15sdp"
+            android:text="Are You Sure that want to Start a Live ?"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Live"
+            android:layout_gravity="right"
+            android:textStyle="bold"
+            android:id="@+id/action_btn"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/selected_tab"/>
     </LinearLayout>
 
 </LinearLayout>

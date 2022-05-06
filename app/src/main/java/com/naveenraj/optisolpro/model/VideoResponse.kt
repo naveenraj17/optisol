@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 
 
 
-class VideoReponse {
+class VideoResponse {
     @SerializedName("page")
     @Expose
      val page: Int? = null

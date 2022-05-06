@@ -44,14 +44,18 @@ class SQLiteManager(context: Context?) :
 
     fun updateMatchDetails(data:RoomData): Boolean {
 
-//        var id = getRecords()?.get(getRecordCount(TABLE_NAME)-1)?.id
-        var id = 2
+        var id = data.id
 
         val db = this.writableDatabase
         val values = ContentValues()
-        if(!data.isLive.equals(""))
+        values.put(NAME, data.name)
+        if(data.isLive)
+            values.put(ISLIVE, !data.isLive)
+        else
             values.put(ISLIVE, data.isLive)
-        val _success = db.update(TABLE_NAME,values,"id = ?", arrayOf(id.toString()))
+        values.put(DATETIME, data.createDataTime)
+
+        val _success = db.update(TABLE_NAME,values,"id = ?", arrayOf(id))
         db.close()
         return (Integer.parseInt("$_success") != -1)
     }

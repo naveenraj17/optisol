@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,7 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
     private lateinit var roomRecycler: RecyclerView
     private lateinit var sqLiteManager: SQLiteManager
     private val DATEFORMAT:String = "yyyy-MM-dd HH:mm:ss"
+    var data:ArrayList<RoomData>? = ArrayList()
     private val listener = click
 
     override fun onCreateView(
@@ -43,9 +45,10 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
         addRoom = view.findViewById(R.id.add_room)
         roomRecycler = view.findViewById(R.id.room_recycler)
         try {
-            val data:ArrayList<RoomData>? = sqLiteManager.getRecords()
+             data = sqLiteManager.getRecords()
             if(data?.size!!>0){
-                var adapter =  RoomAdapter(data,requireContext(),listener)
+                filterData(data!!)
+                var adapter =  RoomAdapter(filterData(data!!),requireContext(),listener)
                 roomRecycler.setHasFixedSize(true)
                 roomRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
                 try{
@@ -69,6 +72,10 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
         val isLive:CheckBox = sheetView.findViewById(R.id.is_live)
         val create:Button = sheetView.findViewById(R.id.create)
         val cancel:Button = sheetView.findViewById(R.id.cancel)
+        val createL:LinearLayout = sheetView.findViewById(R.id.createL)
+        val updateL:LinearLayout = sheetView.findViewById(R.id.updateL)
+        updateL.visibility = View.GONE
+        createL.visibility = View.VISIBLE
         cancel.setOnClickListener{
             mBottomSheetDialog.dismiss()
             isLive.isChecked = false
@@ -76,12 +83,25 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
             roomName.clearFocus()
         }
         create.setOnClickListener{
-            val sdf = SimpleDateFormat(DATEFORMAT)
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
-            val utcTime: String = sdf.format(Date())
-            val data = RoomData("",roomName.text.toString(),isLive.isChecked,utcTime)
-            if(sqLiteManager.addRoomDetails(data)){
-                mBottomSheetDialog.dismiss()
+            val text = roomName.text.toString()
+            var check = true
+            for(i in this.data!!){
+                if(text.equals(i.name, ignoreCase = true)){
+                    check = false
+                    break
+                }
+            }
+
+            if(check){
+                val sdf = SimpleDateFormat(DATEFORMAT)
+                sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+                val utcTime: String = sdf.format(Date())
+                val data = RoomData("",text,isLive.isChecked,utcTime)
+                if(sqLiteManager.addRoomDetails(data)){
+                    mBottomSheetDialog.dismiss()
+                }
+            }else{
+
             }
         }
 
@@ -90,6 +110,21 @@ class FeedsFragment(click:RoomAdapter.ClickListener) : Fragment() {
         }
 
         return view
+    }
+
+    private fun filterData(data: ArrayList<RoomData>):ArrayList<RoomData> {
+        var listData : ArrayList<RoomData> = ArrayList()
+        for(i in data){
+            if(i.isLive){
+                listData.add(i)
+            }
+        }
+        for(i in data){
+            if(!i.isLive){
+                listData.add(i)
+            }
+        }
+        return listData
     }
 
 

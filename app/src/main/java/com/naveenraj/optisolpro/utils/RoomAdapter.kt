@@ -37,6 +37,8 @@ class RoomAdapter(data: ArrayList<RoomData>, context: Context,listener: ClickLis
         df.setTimeZone(TimeZone.getDefault())
         val formattedDate: String = formate.format(date)
         holder.date.text=formattedDate
+        if(data.get(position).isLive)
+        holder.indicator.visibility=View.VISIBLE
 
         holder.rootView.setOnClickListener{
             listener.clickOperation(data.get(position))
@@ -58,6 +60,7 @@ class RoomAdapter(data: ArrayList<RoomData>, context: Context,listener: ClickLis
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name)
         var date: TextView = itemView.findViewById(R.id.date)
+        var indicator: TextView = itemView.findViewById(R.id.indicator)
         var img: ImageView = itemView.findViewById(R.id.img)
         var rootView: NeumorphCardView = itemView.findViewById(R.id.rootView)
 
