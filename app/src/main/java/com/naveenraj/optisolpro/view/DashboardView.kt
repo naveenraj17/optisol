@@ -98,4 +98,8 @@ class DashboardView : AppCompatActivity(), RoomAdapter.ClickListener {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }
