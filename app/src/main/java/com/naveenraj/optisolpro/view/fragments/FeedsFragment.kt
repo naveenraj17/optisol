@@ -94,10 +94,10 @@ class FeedsFragment(click: RoomAdapter.ClickListener) : Fragment() {
                         currentPage()
                     }
                 }else{
-                    Toast.makeText(requireContext(),"Room Name should be Unique", Toast.LENGTH_SHORT).show()
+                    roomName.error = "Room Name"
                 }
                 }else{
-                roomName.error = "Room Name"
+                Toast.makeText(requireContext(),"Room Name should be Unique", Toast.LENGTH_SHORT).show()
             }
 
         }
