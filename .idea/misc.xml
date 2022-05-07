@@ -34,6 +34,11 @@
         <entry key="..\:/Users/Arun/Desktop/New folder/optisol/app/src/main/res/layout/video_layout.xml" value="0.1" />
         <entry key="..\:/Users/Arun/Desktop/New folder/optisol/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/Arun/Desktop/New folder/optisol/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/shimmer_bg.xml" value="0.1195" />
+        <entry key="app/src/main/res/layout/create_room.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/shimmer.xml" value="0.1" />
       </map>
     </option>
   </component>

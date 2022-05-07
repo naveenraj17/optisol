@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
         android:layout_marginTop="@dimen/_3sdp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_height="@dimen/_40sdp">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/room_name"
@@ -52,7 +52,7 @@
             android:id="@+id/create"
             app:backgroundTint="@null"
             android:textColor="#FFF"
-            android:background="@drawable/uon" />
+            android:background="@drawable/cancel_bg" />
 
         <Button
             android:id="@+id/cancel"

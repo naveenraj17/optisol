@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
+    android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -17,12 +18,10 @@
         android:id="@+id/note"
         android:fontFamily="@font/poppins_regular"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:visibility="gone"
-        android:layout_marginTop="@dimen/_50ssp"
         android:text="Click + icon to create \na room"
-        android:layout_marginBottom="@dimen/_5sdp"
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="@dimen/_15ssp" />

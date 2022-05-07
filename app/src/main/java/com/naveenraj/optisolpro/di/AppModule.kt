@@ -1,6 +1,6 @@
 package com.naveenraj.optisolpro.di
 
-import com.naveenraj.optisolpro.presenter.RetroServiceInstance
+import com.naveenraj.optisolpro.utils.network.RetroServiceInstance
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
     @InstallIn(SingletonComponent::class)
     object AppModule {
 
-        val LOCAL_BASE_URL = "https://reqres.in/api/"
+        private const val baseUrl = "https://reqres.in/api/"
 
         @Provides
         @Singleton
@@ -23,9 +23,8 @@ import javax.inject.Singleton
         }
         @Provides
         @Singleton
-//        fun provideCryptocurrencyRepository():VideoRepo=VideoRepoImpl()
         fun getRetrofitClient(): Retrofit {
-            return Retrofit.Builder().baseUrl(LOCAL_BASE_URL)
+            return Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

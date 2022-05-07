@@ -1,4 +1,4 @@
-package com.naveenraj.optisolpro.presenter
+package com.naveenraj.optisolpro.utils.network
 
 import com.naveenraj.optisolpro.model.VideoResponse
 import retrofit2.Call
@@ -9,7 +9,5 @@ interface RetroServiceInstance {
 
     @GET("users")
     fun reqVideoResponse(@Query("page") page: Int?): Call<VideoResponse>
-
-
 
 }

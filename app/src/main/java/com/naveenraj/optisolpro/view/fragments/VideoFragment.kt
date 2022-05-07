@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.VideoData
-import com.naveenraj.optisolpro.utils.VideoAdapter
+import com.naveenraj.optisolpro.utils.adapter.VideoAdapter
 import com.naveenraj.optisolpro.view.DashboardView
 import com.naveenraj.optisolpro.view_model.VideoFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,93 +27,74 @@ import dagger.hilt.android.AndroidEntryPoint
 class VideoFragment : Fragment() {
 
     private lateinit var videoRecyclerview: RecyclerView
-    private lateinit var recyclerAdapter: VideoAdapter
+    private lateinit var adapter: VideoAdapter
     private lateinit var scrollView: NestedScrollView
     private lateinit var shimmer: ShimmerFrameLayout
+    private lateinit var shimmerBottom: ShimmerFrameLayout
     private var entireData: ArrayList<VideoData> =ArrayList()
-    var page = 1
-    var isLoading = false
-    var limit = 2
-    lateinit var layoutManager: LinearLayoutManager
+    private var page = 1
+    private var limit = 2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-
         val view = inflater.inflate(R.layout.fragment_video, container, false)
-        videoRecyclerview = view.findViewById(R.id.video_recycler)
-        shimmer = view.findViewById(R.id.shimmer_view_container)
-        scrollView = view.findViewById(R.id.scroll_view)
-        shimmer.startShimmerAnimation()
-        shimmer.visibility =View.VISIBLE
-        layoutManager = LinearLayoutManager(requireContext())
+        initViews(view)
 
+        shimmer.startShimmerAnimation()
+        shimmerBottom.startShimmerAnimation()
+
+        shimmer.visibility =View.VISIBLE
+        videoRecyclerview.setHasFixedSize(true)
         videoRecyclerview.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL,false)
-//        recyclerAdapter = VideoAdapter(entireData)
-//        videoRecyclerview.adapter = recyclerAdapter
-        if(isNetworkAvailable(requireContext())){
-            initViewModel(false)
-        }else{
-            noNetworkError(requireActivity(),DashboardView::class.java)
-        }
+            initViewModel()
 
-        scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            // on scroll change we are checking when users scroll as bottom.
+        adapter = VideoAdapter()
+        videoRecyclerview.adapter = adapter
+        scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
+
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
-                // in this method we are incrementing page number,
-                // making progress bar visible and calling get data method.
-                page++
-                initViewModel(false)
-//                loadingPB.setVisibility(View.VISIBLE)
-//                getDataFromAPI(page, limit)
+                initViewModel()
+                shimmerBottom.visibility =View.GONE
+                shimmerBottom.stopShimmerAnimation()
             }
         })
-
         return view
     }
 
-    private fun initViewModel(status: Boolean) {
-        isLoading = true
-//        if(!status)
-        if (page > limit) {
+    private fun initViews(view: View) {
+        videoRecyclerview = view.findViewById(R.id.video_recycler)
+        shimmer = view.findViewById(R.id.shimmer_view_container)
+        shimmerBottom = view.findViewById(R.id.shimmer_view)
+        scrollView = view.findViewById(R.id.scroll_view)
+    }
 
-//            loadingPB.setVisibility(View.GONE);
-            return;
-        }else{
+    private fun initViewModel() {
+        if(isNetworkAvailable(requireContext())){
+            if (page <= limit) {
 
-            val viewModel=ViewModelProvider(this).get(VideoFeedViewModel::class.java)
-            viewModel.getLiveDataObserver().observe(this,{
-                if(it !=null){
-                    videoRecyclerview.setHasFixedSize(true)
-                    var data = it.data as ArrayList<VideoData>
-                    entireData.addAll(data)
-
-
-//                limit = it.total!!
-                videoRecyclerview.adapter = VideoAdapter(
-                    entireData)
-                recyclerAdapter = VideoAdapter(entireData)
-//                    recyclerAdapter.addData(data)
-                    shimmer.visibility =View.GONE
-                    shimmer.stopShimmerAnimation()
-
-
+                val viewModel=ViewModelProvider(this).get(VideoFeedViewModel::class.java)
+                viewModel.getLiveDataObserver().observe(this) {
+                    if (it != null) {
+                        entireData.addAll(it.data as ArrayList<VideoData>)
+                        val reqData = LinkedHashSet(entireData).toMutableList()
+                        adapter.addItem(reqData as ArrayList<VideoData>)
+                        adapter.notifyDataSetChanged()
+                        shimmer.stopShimmerAnimation()
+                        shimmer.visibility =View.GONE
+                    }
                 }
-            })
 
-            viewModel.loadListofData(page)
+                viewModel.loadListofData(page)
+                page++
+            }
+        }else{
+            noNetworkError(requireActivity(),DashboardView::class.java)
         }
-
-
     }
 
-
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-
-    }
-    fun isNetworkAvailable(context: Context): Boolean {
+    private fun isNetworkAvailable(context: Context): Boolean {
         var haveConnectedWifi = false
         var haveConnectedMobile = false
 
@@ -134,11 +115,11 @@ class VideoFragment : Fragment() {
         return haveConnectedWifi || haveConnectedMobile
     }
 
-    fun noNetworkError(activity: Activity, aClass: Class<*>?) {
+    private fun noNetworkError(activity: Activity, aClass: Class<*>?) {
         AlertDialog.Builder(activity).setTitle("No Internet Connection")
             .setMessage("Please Check Your Internet Connection").setPositiveButton("Retry")
-            { dialog, which ->
+            { _, _ ->
                 activity.startActivity(Intent(activity, aClass))
-            }.setNegativeButton("Cancel") { dialog, which -> dialog.dismiss() }.show()
+            }.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }.show()
     }
 }

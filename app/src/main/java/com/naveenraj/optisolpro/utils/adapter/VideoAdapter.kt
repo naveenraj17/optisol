@@ -1,4 +1,4 @@
-package com.naveenraj.optisolpro.utils
+package com.naveenraj.optisolpro.utils.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,36 +9,35 @@ import com.naveenraj.optisolpro.R
 import com.naveenraj.optisolpro.model.VideoData
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import soup.neumorphism.NeumorphCardView
 
-class VideoAdapter(entireData: ArrayList<VideoData>) :
+class VideoAdapter() :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>()  {
     private var data = ArrayList<VideoData>()
-    init {
-        this.data=entireData
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
+//    init {
+//        this.data=entireData
+//    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.video_layout, parent, false))
-
     }
 
-    override fun onBindViewHolder(holder: VideoAdapter.ViewHolder, position: Int) {
-
-        holder.name.text = data.get(position).firstName+" "+data.get(position).lastName
-        holder.mail.text = data.get(position).email
-        Picasso.get().load(data.get(position).avatar).placeholder(R.drawable.profile).fit()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = this.data[position]
+        holder.name.text = data.firstName+" "+data.lastName
+        holder.mail.text = data.email
+        Picasso.get().load(data.avatar).placeholder(R.drawable.no_image).fit()
             .centerInside().into(holder.img)
     }
 
+    fun addItem(items:ArrayList<VideoData>){
+        data.clear()
+        data.addAll(items)
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int {
         return data.size
     }
-
-//    fun addData(items:ArrayList<VideoData>){
-//        data.addAll(items)
-//        notifyDataSetChanged()
-//    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name)
@@ -46,6 +45,4 @@ class VideoAdapter(entireData: ArrayList<VideoData>) :
         var mail: TextView = itemView.findViewById(R.id.mail)
 
     }
-
-
 }
